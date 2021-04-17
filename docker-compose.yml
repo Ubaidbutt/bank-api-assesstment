@@ -1,0 +1,17 @@
+version: "2"
+services:
+  web:
+    build: .
+    container_name: bank-api
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017/banks
+      - PORT=4200
+    ports:
+      - "4200:4200"
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    container_name: mongo-bank-api
+    ports:
+      - "27017:27017"

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: assessment-primary
+  name: assessment-primary
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: assessment-primary
+  template:
+    metadata:
+      labels:
+        app: assessment-primary
+    spec:
+      containers:
+      - image: <docker-registry-username>/primary:latest
+        name: primary
+        env:
+        - name: MONGODB_URL
+          value: "mongodb://mongodb-service:27017/banks"
+        - name: PORT
+          value: "4200"
+        resources: 
+          limits:
+            memory: "200Mi"
+      imagePullSecrets:
+      - name: dockerhub-secrets
