@@ -12,4 +12,4 @@ const getAllValidations = async (req, res) => {
     }
 } 
 
-export {getAllValidations}
+export {getAllValidations};
