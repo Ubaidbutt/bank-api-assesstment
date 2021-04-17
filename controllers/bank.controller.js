@@ -36,7 +36,12 @@ const createBank = async (req, res) => {
             return res.status(204).send({success: true, data: updatedBank})
         }
     } catch(err) {
-        return res.status(500).send({success: false, error: err.message});
+        if (err.name == 'ValidationError') {
+            res.statusCode = 422;
+        } else {
+            res.statusCode = 500;
+        }
+        return res.send({success: false, error: err.message});
     }
 }
 
