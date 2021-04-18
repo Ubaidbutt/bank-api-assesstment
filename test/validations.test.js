@@ -4,28 +4,25 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index.js';
 
-const {
-    expect
-} = chai;
-
+const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe('Validations', () => {
-    beforeEach(async () => {
+    before(async () => {
         await SenderValidation.deleteMany({});
         await ReceiverValidation.deleteMany({});
     })
 
     describe('/GET validations', () => {
-        it('it should return all sender and receiver validations', async () => {
-            chai.request(app)
-                .get('/validations')
-                .then((res) => {
-                    expect(res.success).to.be.true;
-                    expect(res.data).to.haveOwnProperty('senderValidations');
-                    expect(res.data).to.haveOwnProperty('receiverValidations');
-                });
+        it('should return all sender and receiver validations', async () => {
+            try {
+                const res = await chai.request(app).get('/validations');
+                res.should.have.status(200);
+                res.body.data.should.be.a('object');
+            } catch(err) {
+                throw new Error(err);
+            }
         });
     });
 });
